@@ -6,12 +6,14 @@ import PostCard from '@/components/PostCard';
 import PostSkeleton from '@/components/PostSkeleton';
 import { toggleLike, toggleRetweet, createPost } from '@/lib/api';
 import { Post } from '@/types';
-import { Plus, X } from 'lucide-react';
+import { Image as ImageIcon } from 'lucide-react';
+import ImagePreview from '@/components/ImagePreview';
 
 export default function Home() {
   const { posts, loading, hasMore, error, loadMore, refresh } = useInfiniteScroll();
   const [showCompose, setShowCompose] = useState(false);
   const [composeContent, setComposeContent] = useState('');
+  const [composeImages, setComposeImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLikeToggle = async (postId: number) => {
@@ -22,13 +24,36 @@ export default function Home() {
     await toggleRetweet(postId);
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    Array.from(files).forEach((file) => {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const result = event.target?.result;
+          if (result && typeof result === 'string') {
+            setComposeImages(prev => [...prev, result]);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setComposeImages(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmitPost = async () => {
     if (!composeContent.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
     try {
-      await createPost(composeContent);
+      await createPost(composeContent, composeImages);
       setComposeContent('');
+      setComposeImages([]);
       setShowCompose(false);
       refresh();
     } catch (error) {
@@ -61,10 +86,28 @@ export default function Home() {
                 maxLength={280}
                 rows={2}
               />
+
+              <ImagePreview
+                images={composeImages}
+                onRemove={handleRemoveImage}
+              />
+
               <div className="flex items-center justify-between mt-4">
-                <span className={`text-sm ${composeContent.length > 280 ? 'text-red-500' : 'text-gray-500'}`}>
-                  {composeContent.length}/280
-                </span>
+                <div className="flex items-center space-x-3">
+                  <label className="text-blue-500 hover:bg-blue-50 p-2 rounded-full cursor-pointer transition-colors">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                    <ImageIcon size={20} />
+                  </label>
+                  <span className={`text-sm ${composeContent.length > 280 ? 'text-red-500' : 'text-gray-500'}`}>
+                    {composeContent.length}/280
+                  </span>
+                </div>
                 <button
                   onClick={handleSubmitPost}
                   disabled={!composeContent.trim() || composeContent.length > 280 || isSubmitting}
