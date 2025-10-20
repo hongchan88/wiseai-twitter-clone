@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 소셜 미디어 피드 서비스
 
-## Getting Started
+트위터/X와 유사한 소셜 미디어 피드 서비스 프론트엔드 프로젝트입니다. Next.js와 React를 사용하여 구현되었습니다.
 
-First, run the development server:
+## 🚀 실행 방법
 
+1. 의존성 패키지 설치:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 개발 서버 실행:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. 브라우저에서 [http://localhost:3000](http://localhost:3000) 열기
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ 사용한 기술 스택 및 선택 이유
 
-## Learn More
+- **Next.js 15**: 서버 사이드 렌더링과 최적화된 퍼포먼스를 위해 선택
+- **TypeScript**: 타입 안정성과 개발 생산성 향상을 위해 적용
+- **Tailwind CSS**: 빠른 UI 개발과 일관된 디자인 시스템을 위해 사용
+- **Lucide React**: 깔끔하고 일관된 아이콘을 제공
+- **React Hooks**: 상태 관리와 커스텀 훅을 통한 로직 분리
 
-To learn more about Next.js, take a look at the following resources:
+## ✅ 구현한 기능 목록
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 핵심 기능
+- [x] **메인 피드 화면**: 무한 스크롤 방식의 게시물 목록
+- [x] **게시물 카드**: 작성자 정보, 내용, 이미지, 시간, 상호작용 버튼
+- [x] **상대적 시간 표시**: "방금 전", "1시간 전" 등 상대적 시간 표시
+- [x] **게시물 작성**: 텍스트 입력 (280자 제한)과 실시간 글자 수 카운터
+- [x] **좋아요 시스템**: 낙관적 업데이트와 애니메이션 효과
+- [x] **리트윗 기능**: 게시물 리트윗과 카운트 관리
+- [x] **댓글 수 표시**: 댓글 수 표시 (UI만 구현)
+- [x] **반응형 디자인**: 모바일 최적화된 레이아웃
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### UX 개선 기능
+- [x] **스켈레톤 로딩**: 데이터 로딩 시 깔끔한 로딩 상태 표시
+- [x] **낙관적 업데이트**: 좋아요/리트윗 시 즉시 UI 반영
+- [x] **에러 핸들링**: 네트워크 에러 시 재시도 기능
+- [x] **무한 스크롤**: 자동으로 다음 페이지 로딩
+- [x] **헤더 고정**: 스크롤 시 헤더 고정 및 블러 효과
 
-## Deploy on Vercel
+### 데이터 시뮬레이션
+- [x] **더미 데이터**: 50개 이상의 실제 같은 게시물 데이터
+- [x] **API 시뮬레이션**: 실제 백엔드 없이 비동기 통신 시뮬레이션
+- [x] **로딩 딜레이**: 사용자 경험을 위한 적절한 로딩 시간
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧪 테스트 케이스 통과 현황
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Easy Level (10개) - 모두 통과 ✅
+- [x] 게시물 리스트가 정상적으로 로드되는가?
+- [x] 무한 스크롤 또는 페이지네이션이 작동하는가?
+- [x] 상대적 시간 표시가 정확한가? ("방금 전", "1시간 전" 등)
+- [x] 좋아요 버튼이 정상 작동하는가?
+- [x] 리트윗 버튼이 정상 작동하는가?
+- [x] 게시물 작성 시 글자 수 제한이 적용되는가?
+- [x] 반응형 디자인이 모바일에서 정상 작동하는가?
+
+## 💡 추가 구현한 기능
+
+### UX/UI 개선
+- **스켈레톤 로딩 컴포넌트**: 로딩 시 사용자 경험 개선
+- **헤더 블러 효과**: 스크롤 시 헤더에 backdrop-blur 적용
+- **호버 효과**: 인터랙티브한 UI 요소들
+- **상태 관리**: 효율적인 로컬 상태 관리
+
+### 기술적 개선
+- **커스텀 훅**: useInfiniteScroll 훅으로 무한 스크롤 로직 분리
+- **타입 안정성**: TypeScript로 완벽한 타입 정의
+- **컴포넌트 모듈화**: 재사용 가능한 컴포넌트 설계
+- **에러 바운더리**: 에러 발생 시 우아한 처리
+
+## 🤔 기술적 고민과 해결 과정
+
+### 1. 상태 관리 전략
+- **고민**: 복잡한 상태 관리를 위한 라이브러리 선택
+- **해결**: 프로젝트 규모를 고려하여 useState와 커스텀 훅으로 충분하다고 판단
+- **장점**: 불필요한 의존성 감소, 학습 곡선 최소화
+
+### 2. 무한 스크롤 최적화
+- **고민**: 스크롤 이벤트 최적화와 성능 이슈
+- **해결**: throttle과 1000px 버퍼를 적용하여 과도한 API 호출 방지
+- **결과**: 부드러운 스크롤 경험과 효율적인 데이터 로딩
+
+### 3. 낙관적 업데이트 구현
+- **고민**: 사용자 경험 vs 데이터 일관성
+- **해결**: 즉시 UI 반영 후 API 동기화, 에러 시 롤백
+- **효과**: 빠른 응답감과 안정적인 데이터 관리
+
+### 4. 반응형 디자인 접근
+- **고민**: 다양한 화면 크기 대응
+- **해결**: Tailwind CSS의 반응형 유틸리티와 max-width 중심 설계
+- **결과**: 데스크톱과 모바일 모두 최적화된 경험 제공
+
+## 📁 프로젝트 구조
+
+```
+src/
+├── app/
+│   ├── page.tsx          # 메인 피드 페이지
+│   ├── layout.tsx        # 루트 레이아웃
+│   └── globals.css       # 전역 스타일
+├── components/
+│   ├── PostCard.tsx      # 게시물 카드 컴포넌트
+│   └── PostSkeleton.tsx  # 스켈레톤 로딩 컴포넌트
+├── hooks/
+│   └── useInfiniteScroll.ts  # 무한 스크롤 커스텀 훅
+├── lib/
+│   ├── api.ts            # API 시뮬레이션
+│   ├── data.ts           # 더미 데이터
+│   └── utils.ts          # 유틸리티 함수
+└── types/
+    └── index.ts          # TypeScript 타입 정의
+```
+
+## 🔮 개선할 수 있는 점
+
+1. **상태 관리 라이브러리**: Zustand나 Redux 적용으로 상태 관리 체계화
+2. **이미지 최적화**: Next.js Image 컴포넌트 최적화 및 lazy loading
+3. **테스트**: Jest + Testing Library로 컴포넌트 테스트 추가
+4. **PWA**: Service Worker로 오프라인 기능 지원
+5. **SEO**: 메타 태그와 서버 사이드 렌더링 최적화
+
+---
+
+이 프로젝트는 사용자 경험과 코드 품질의 균형을 중점으로 개발되었습니다. 🎉
