@@ -24,6 +24,8 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
     if (isLiking) return;
 
     setIsLiking(true);
+    const originalIsLiked = isLiked;
+    const originalLikesCount = likesCount;
     const newIsLiked = !isLiked;
     const newLikesCount = likesCount + (newIsLiked ? 1 : -1);
 
@@ -33,8 +35,8 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
     try {
       await onLikeToggle(post.id);
     } catch (error) {
-      setIsLiked(!newIsLiked);
-      setLikesCount(likesCount);
+      setIsLiked(originalIsLiked);
+      setLikesCount(originalLikesCount);
     } finally {
       setIsLiking(false);
     }
@@ -44,6 +46,8 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
     if (isRetweeting) return;
 
     setIsRetweeting(true);
+    const originalIsRetweeted = isRetweeted;
+    const originalRetweetsCount = retweetsCount;
     const newIsRetweeted = !isRetweeted;
     const newRetweetsCount = retweetsCount + (newIsRetweeted ? 1 : -1);
 
@@ -53,8 +57,8 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
     try {
       await onRetweetToggle(post.id);
     } catch (error) {
-      setIsRetweeted(!newIsRetweeted);
-      setRetweetsCount(retweetsCount);
+      setIsRetweeted(originalIsRetweeted);
+      setRetweetsCount(originalRetweetsCount);
     } finally {
       setIsRetweeting(false);
     }
@@ -70,6 +74,9 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
             width={48}
             height={48}
             className="rounded-full"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
           />
         </div>
 
@@ -100,6 +107,9 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
                 width={500}
                 height={300}
                 className="w-full object-cover"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
               />
             </div>
           )}
