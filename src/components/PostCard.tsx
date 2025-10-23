@@ -5,6 +5,7 @@ import { Post } from '@/types';
 import { formatRelativeTime } from '@/lib/utils';
 import { Heart, MessageCircle, Repeat2, Share } from 'lucide-react';
 import Image from 'next/image';
+import ImageModal from './ImageModal';
 
 interface PostCardProps {
   post: Post;
@@ -19,6 +20,8 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
   const [retweetsCount, setRetweetsCount] = useState(post.retweets);
   const [isLiking, setIsLiking] = useState(false);
   const [isRetweeting, setIsRetweeting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalInitialIndex, setModalInitialIndex] = useState(0);
 
   const handleLike = async () => {
     if (isLiking) return;
@@ -64,6 +67,11 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
     }
   };
 
+  const handleImageClick = (index: number = 0) => {
+    setModalInitialIndex(index);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 p-4">
       <div className="flex space-x-3">
@@ -100,7 +108,10 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
           </div>
 
           {post.images.length > 0 && (
-            <div className="mt-3 rounded-xl overflow-hidden border border-gray-200">
+            <div
+              className="mt-3 rounded-xl overflow-hidden border border-gray-200 cursor-pointer hover:opacity-95 transition-opacity"
+              onClick={() => handleImageClick(0)}
+            >
               <Image
                 src={post.images[0]}
                 alt="Post image"
@@ -158,6 +169,14 @@ export default function PostCard({ post, onLikeToggle, onRetweetToggle }: PostCa
           </div>
         </div>
       </div>
+
+      {/* Image Modal */}
+      <ImageModal
+        images={post.images}
+        initialIndex={modalInitialIndex}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
